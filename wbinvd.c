@@ -11,7 +11,10 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Baptiste Canton <batmac@gmail.com>");
 MODULE_DESCRIPTION("execute WBINVD on demand");
 
+#ifndef PROCFILE_NAME
 #define PROCFILE_NAME "wbinvd"
+#endif
+
 static struct proc_dir_entry *procfile;
 
 static int wbinvd_show(struct seq_file *m, void *v)
