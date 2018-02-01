@@ -15,5 +15,5 @@ test:
 	${SUDO} modinfo ${NAME}.ko
 	-@ 2>/dev/null ${SUDO} rmmod ${NAME}.ko || true
 	${SUDO} insmod ${NAME}.ko
-	${SUDO} cat /proc/${PROCFILE_NAME}
+	${SUDO} cat /proc/${PROCFILE_NAME} | grep executed
 	${SUDO} rmmod ${NAME}.ko
