@@ -10,7 +10,7 @@ clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 
 install-bdep:
-	${SUDO} apt-get install build-essential linux-headers-$(shell uname -r)
+	${SUDO} apt-get install -y gcc make linux-headers-$(shell uname -r)
 test: 
 	${SUDO} modinfo ${NAME}.ko
 	-@ 2>/dev/null ${SUDO} rmmod ${NAME}.ko || true
