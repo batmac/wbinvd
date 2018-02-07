@@ -1,0 +1,11 @@
+---
+os:
+  - linux
+language: c
+compiler:
+  - gcc
+sudo: required
+script:
+  - make install-bdep
+  - make
+  - make test
