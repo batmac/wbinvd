@@ -23,7 +23,7 @@ static int wbinvd_show(struct seq_file *m, void *v)
 	pr_info("%s: _show requested, executing WBINVD on all CPUs, from CPU %u\n",THIS_MODULE->name,cpu);
 	wbinvd_on_all_cpus();
 	put_cpu(); /* preempt on */
-	seq_printf(m, "WBINVD executed on CPU %u\n",cpu);
+	seq_printf(m, "WBINVD executed from CPU %u\n",cpu);
 	return 0;
 }
 static int wbinvd_open(struct inode *inode, struct file *file)
