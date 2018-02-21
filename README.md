@@ -5,12 +5,12 @@
 WBINVD (Write Back and INValidate Cache) is a (ring 0 only) x86 instruction to asynchronously purge the cache (with write-back)
 
 more info about WBINVD: http://www.felixcloutier.com/x86/WBINVD.html
-```
+```sh
 make && make test
 ```
 
 one can use dkms to create a .deb, for instance:
-```
+```sh
 make install-bdep
 apt-get install dkms
 cp -a <repo_dir> /usr/src/wbinvd-1.0
