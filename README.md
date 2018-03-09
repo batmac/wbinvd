@@ -14,6 +14,7 @@ one can use dkms to create a .deb, for instance:
 make install-bdep
 apt-get install dkms
 cp -a <repo_dir> /usr/src/wbinvd-1.0
+rm -rf /usr/src/wbinvd-1.0/.git
 dkms add wbinvd/1.0
 make deb # or dkms mkdeb wbinvd/1.0 --source-only
 ```
