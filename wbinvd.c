@@ -31,6 +31,15 @@ static int wbinvd_open(struct inode *inode, struct file *file)
 	return  single_open(file,wbinvd_show,NULL);
 }
 
+
+#ifdef HAVE_PROC_OPS
+static const struct proc_ops wbinvd_ops = {
+	.proc_open    = wbinvd_open,
+	.proc_read    = seq_read,
+	.proc_lseek   = seq_lseek,
+	.proc_release = single_release,
+};
+#else
 static const struct file_operations wbinvd_fops = {
 	.owner   = THIS_MODULE,
 	.open    = wbinvd_open,
@@ -38,10 +47,12 @@ static const struct file_operations wbinvd_fops = {
 	.llseek  = seq_lseek,
 	.release = single_release,
 };
+#define wbinvd_ops wbinvd_fops
+#endif
 
 static int __init wbinvd_init(void)
 {
-	procfile = proc_create(PROCFILE_NAME,0400,NULL,&wbinvd_fops);
+	procfile = proc_create(PROCFILE_NAME,0400,NULL,&wbinvd_ops);
 	if(!procfile) {
 		proc_remove(procfile);
 		pr_alert("%s: Error: Could not initialize /proc/%s\n",THIS_MODULE->name,PROCFILE_NAME);

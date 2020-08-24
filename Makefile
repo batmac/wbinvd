@@ -1,9 +1,20 @@
 NAME=wbinvd
 PROCFILE_NAME=${NAME}
 SUDO=sudo
-obj-m += ${NAME}.o
-CFLAGS_${NAME}.o += -DPROCFILE_NAME=\"${PROCFILE_NAME}\"
-KVER=$(shell uname -r)
+KVER:=$(shell uname -r)
+
+ifneq ($(KERNELRELEASE),)
+	obj-m += ${NAME}.o
+	CFLAGS_${NAME}.o += -DPROCFILE_NAME=\"${PROCFILE_NAME}\"
+	# simple heuristic
+	KVER_S:=$(subst ., ,$(KVER))
+	KMAJ:=$(word 1, $(KVER_S))
+	KMIN:=$(word 2, $(KVER_S))
+	ifeq ($(shell expr ${KMAJ} \>= 5 \& ${KMIN} \>= 6),1)
+		CFLAGS_${NAME}.o += -DHAVE_PROC_OPS
+	endif
+
+else
 
 all:
 	make -C /lib/modules/$(KVER)/build M=$(PWD) modules
@@ -22,3 +33,5 @@ test:
 
 deb: dkms.conf
 	${SUDO} dkms mkdeb -m $(NAME) -v 1.0 --source-only
+
+endif
